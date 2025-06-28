@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: boardgame
-          image: prcdocker/boardshack:latest # Image that will be used to containers in the cluster
+          image: us-central1-docker.pkg.dev/devops-practices-2025/springbootdockerrepo/boardshack:main-4
           imagePullPolicy: Always
           ports:
             - containerPort: 8080 # The port that the container is running on in the cluster

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: boardgame
-          image: us-central1-docker.pkg.dev/devops-goat-2025/allinonerepo/boardshack:main-7
+          image: prcdocker/boardshack:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080 # The port that the container is running on in the cluster

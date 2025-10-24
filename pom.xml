@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
+        <version>3.2.3</version> <!-- Spring Boot 3.x compatible with Java 21 -->
         <relativePath/>
     </parent>
 
@@ -15,17 +16,16 @@
     <artifactId>database_service_project</artifactId>
     <version>0.0.7-SNAPSHOT</version>
     <name>database_service_project</name>
-    <description>Project for Spring Boot with Java 21</description>
+    <description>Project for Spring Boot</description>
     <packaging>jar</packaging>
 
     <properties>
         <java.version>21</java.version>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <jacoco.version>0.8.8</jacoco.version>
+        <maven.compiler.release>21</maven.compiler.release>
+        <jacoco.version>0.8.10</jacoco.version>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
     </properties>
 
@@ -37,22 +37,24 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+        <!-- Thymeleaf Spring Security extras -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
 
-        <!-- Database -->
+        <!-- H2 Database -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -66,7 +68,15 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Test Dependencies -->
+        <!-- Servlet API (Jakarta) -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -78,12 +88,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- JaCoCo (for code coverage) -->
+        <!-- JaCoCo -->
         <dependency>
             <groupId>org.jacoco</groupId>
-            <artifactId>org.jacoco.agent</artifactId>
+            <artifactId>jacoco-maven-plugin</artifactId>
             <version>${jacoco.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -113,7 +122,7 @@
                 </configuration>
             </plugin>
 
-            <!-- JaCoCo Plugin -->
+            <!-- JaCoCo Maven Plugin -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -126,8 +135,8 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>jacoco-report</id>
-                        <phase>verify</phase>
+                        <id>jacoco-site</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
